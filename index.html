@@ -5,25 +5,19 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Random Tree Generator</title>
-	<style>
-		canvas {
-			border: 1px solid black;
-		}
-
-		button,
-		input,
-		label {
-			margin: 10px;
-		}
-	</style>
-
+	<link href="style.css" rel="stylesheet">
 </head>
 
 <body>
-	<canvas id="treeCanvas" width="800" height="600"></canvas>
-	<label for="depthSlider"> Depth: <span id="depthValue">7</span></label>
-	<input type="range" id="depthSlider" min="1" max="10" value="7">
-	<button id="renderButton">New Tree</button>
+	<div class="main">
+		<canvas id="treeCanvas" width="800" height="600"></canvas>
+		
+		<div class="controls">
+			<label for="depthSlider"> Depth: <span id="depthValue">7</span></label>
+			<input type="range" id="depthSlider" min="1" max="10" value="7">
+			<button id="renderButton">New Tree</button>
+		</div>
+	</div>
 
 	<script type="module" src="js/main.js"></script>
 </body>

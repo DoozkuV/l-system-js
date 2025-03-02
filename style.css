@@ -1,0 +1,24 @@
+canvas {
+		border: 1px solid black;
+}
+
+button,
+input,
+label {
+		margin: 10px;
+}
+
+.main {
+		flex-direction: column;
+		margin: 0 auto;
+		height: 20%;
+		width: 50%;
+
+}
+
+.controls {
+		flex-direction: row;
+		align-items: center;
+}
+
+
