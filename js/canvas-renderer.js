@@ -19,7 +19,6 @@ export function renderTree(root) {
 	renderBranches(child);
 
 	ctx.restore();
-
 }
 
 function renderBranches(node) {
