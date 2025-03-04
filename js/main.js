@@ -4,11 +4,12 @@ import { renderTree } from "./canvas-renderer.js";
 const canvas = document.getElementById('treeCanvas');
 
 // Initialize the tree
+let depth = 8;
 const trunkLength = 100;
 const rootX = canvas.width / 2; // Middle of the canvas
 const rootY = canvas.height; // Bottom of the canvas
 const root = new Root(rootX, rootY, trunkLength, depth);
-let depth = 8;
+
 
 window.addEventListener("load", () => renderTree(root));
 
