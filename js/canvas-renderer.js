@@ -1,3 +1,11 @@
+let seed = Math.random();
+
+function random() {
+	const x = Math.sin(seed++) * 10_000;
+	return x - Math.floor(x);
+}
+
+
 const canvas = document.getElementById('treeCanvas');
 const ctx = canvas.getContext('2d');
 
@@ -26,6 +34,8 @@ function renderBranches(node) {
 
 	ctx.beginPath();
 	Object.values(node.children).forEach(child => {
+		ctx.lineWidth = 10 * (node.depth / 8);
+
 		ctx.moveTo(node.x, node.y);
 		ctx.lineTo(child.x, child.y);
 	});

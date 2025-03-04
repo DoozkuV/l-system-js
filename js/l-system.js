@@ -50,7 +50,9 @@ class Node {
 		const endY = this.y + this.branchLength * Math.sin(this.angle);
 
 		// Randomize branch splitting
-		const splitAngle = (Math.PI / 4) * (0.5 + random()); // Random angle between 22.5 and 67.5 degrees
+		const curvature = (Math.PI / 180) * (5 * random()); // Some additional curvature in the generation of the branches
+		const splitAngle = (Math.PI / 4) * (0.5 + random()) + curvature; // Random angle between 22.5 and 67.5 degrees
+
 		const newLength = this.branchLength * (0.6 + 0.2 * random()); // Random length reduction
 
 		// Set children to subbranches
