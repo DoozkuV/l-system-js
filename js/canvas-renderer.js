@@ -7,7 +7,7 @@ export function renderTree(root) {
 	ctx.save();
 	ctx.setTransform(1, 0, 0, 1, 0, 0); // Reset
 
-	ctx.strokeStyle = "black";
+	ctx.strokeStyle = "#874313";
 	ctx.lineWidth = 10;
 	ctx.beginPath();
 	ctx.moveTo(root.x, root.y);
