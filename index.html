@@ -9,14 +9,14 @@
 </head>
 
 <body>
-	<div class="main">
-		<canvas id="treeCanvas" width="800" height="600">Tree Render</canvas>
-		
-		<div class="controls">
-			<label for="depthSlider"> Depth: <span id="depthValue">7</span></label>
-			<input type="range" id="depthSlider" min="2" max="10" value="7">
-			<button id="renderButton">New Tree</button>
-		</div>
+	<div id="canvas-container">
+		<canvas id="treeCanvas"></canvas>
+	</div>
+
+	<div class="controls">
+		<label for="depthSlider"> Depth: <span id="depthValue">7</span></label>
+		<input type="range" id="depthSlider" min="2" max="10" value="7">
+		<button id="renderButton">New Tree</button>
 	</div>
 
 	<script type="module" src="js/main.js"></script>
