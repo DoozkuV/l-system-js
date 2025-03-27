@@ -1,29 +1,53 @@
-import { Root } from "./l-system.js";
-import { renderTree } from "./canvas-renderer.js";
+import { Tree } from "./tree.js"
 
-// Prepare UI elements 
 const canvas = document.getElementById('treeCanvas');
-const renderButton = document.getElementById("renderButton");
-const depthSlider = document.getElementById("depthSlider");
-const depthValue = document.getElementById("depthValue");
+const ctx = canvas.getContext("2d");
+const container = document.getElementById('canvas-container');
 
-// Initialize the tree
-let depth = 8;
-const trunkLength = 100;
-const rootX = canvas.width / 2; // Middle of the canvas
-const rootY = canvas.height; // Bottom of the canvas
+let tree;
 
-// Function for rendering the tree
-const createNewTree = () => {
-	const root = new Root(rootX, rootY, trunkLength, depth);
-	renderTree(root);
+// Set up canvas 
+
+const resizeCanvas = () => {
+	const dpr = window.devicePixelRatio || 1;
+	const rect = container.getBoundingClientRect();
+
+	// Set actual pixel dimensions 
+	canvas.width = rect.width * dpr;
+	canvas.height = rect.height * dpr;
+
+	// Set CSS display dimensions
+	canvas.style.width = rect.width + 'px';
+	canvas.style.height = rect.height + 'px';
+
+	ctx.scale(dpr, dpr); // Scale context for sharp rendering 
+
+	if (tree) {
+		renderTree();
+	}
 }
-// Render the tree on load and on button
-window.addEventListener("load", createNewTree);
-renderButton.addEventListener("click", createNewTree);
-canvas.addEventListener("click", createNewTree);
 
-depthSlider.addEventListener("input", () => {
-	depth = parseInt(depthSlider.value);
-	depthValue.textContent = depth;
+const renderTree = () => {
+	// Clear canvas before redrawing 
+	ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+
+	tree.walk((x, y) => console.log(`coords: ${x}, ${y}`));
+	tree.draw(ctx);
+	//tree.walk((x, y) => ctx.fillRect(x, y, 10, 10));
+}
+
+
+window.addEventListener("load", () => {
+	// Initial resizing of canvas
+	resizeCanvas();
+
+	const x = canvas.width / (2 * window.devicePixelRatio);
+	const y = canvas.height / window.devicePixelRatio;
+	tree = new Tree(x, y, 100, 50, 7, 0.25);
+
+	renderTree();
+
 });
+
+window.addEventListener('resize', resizeCanvas);
