@@ -1,4 +1,5 @@
 export class Renderer {
+	#currentStyle
 	transform = {
 		scale: 1,
 		offsetX: 0,
@@ -13,8 +14,10 @@ export class Renderer {
 		this.ctx = canvas.getContext('2d');
 	}
 
-	setStyle() {
-		this.ctx.fillStyle = "#962D00"
+	setStyle(style) {
+		this.#currentStyle = style;
+		this.ctx.strokeStyle = style;
+		this.ctx.fillStyle = style;
 	}
 
 	clear() {
@@ -31,6 +34,8 @@ export class Renderer {
 
 	resetTransform() {
 		this.ctx.setTransform(1, 0, 0, 1, 0, 0);
+		this.ctx.strokeStyle = this.#currentStyle;
+		this.ctx.fillStyle = this.#currentStyle;
 	}
 
 	drawTaperedLine(x1, y1, x2, y2, startWidth, endWidth) {

@@ -2,8 +2,10 @@ import { Tree } from "./tree.js"
 import { Renderer } from "./renderer.js";
 
 const canvas = document.getElementById('treeCanvas');
-const renderer = new Renderer(canvas);
 const container = document.getElementById('canvas-container');
+
+const renderer = new Renderer(canvas);
+renderer.setStyle("#962D00");
 
 let tree;
 const DEFAULT_LENGTH = 500;
@@ -26,7 +28,7 @@ const resizeCanvas = () => {
 
 
 	if (tree) {
-		tree.render();
+		renderTree();
 	}
 }
 
@@ -91,7 +93,6 @@ function handleWheel(e) {
 	renderer.transform.scale *= zoom;
 
 	// Limit zoom levels 
-
 	renderer.transform.scale = Math.min(Math.max(0.1, renderer.transform.scale), 10);
 
 	// Adjust offset to keep point under mouse fixed 
