@@ -1,21 +1,21 @@
-import { drawTaperedLine } from "./utils.js";
-
 // An angle that points directly up
 const UP = -Math.PI / 2;
 // Used to define how branches with split left and right
-const SPLIT_ANGLE = (Math.PI / 4) * (0.5);
+const SPLIT_ANGLE = (Math.PI / 2) * (0.5);
 // Amount branch length is reduced by for every tree level
 const BRANCH_LENGTH_MOD = 0.6;
 
 export class Tree {
 	#root
+	#renderer
 
-	constructor(x, y, length, width, depth, taperPercent) {
+	constructor(x, y, length, width, depth, taperPercent, renderer) {
 		this.#root = new TreeNode(x, y, length, width, depth, UP, taperPercent);
+		this.#renderer = renderer;
 	}
 
 	render() {
-		this.#root.render();
+		this.#root.render(this.#renderer);
 	}
 }
 
@@ -68,8 +68,8 @@ class TreeNode {
 		);
 	}
 
-	render() {
-		drawTaperedLine(
+	render(renderer) {
+		renderer.drawTaperedLine(
 			this.#x,
 			this.#y,
 			this.#x + this.#length * Math.cos(this.#angle),
@@ -79,8 +79,8 @@ class TreeNode {
 		);
 
 		if (this.#leftChild) {
-			this.#leftChild.render();
-			this.#rightChild.render();
+			this.#leftChild.render(renderer);
+			this.#rightChild.render(renderer);
 		}
 	}
 }
