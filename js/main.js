@@ -23,18 +23,14 @@ const resizeCanvas = () => {
 	ctx.scale(dpr, dpr); // Scale context for sharp rendering 
 
 	if (tree) {
-		renderTree();
+		tree.render();
 	}
 }
 
 const renderTree = () => {
 	// Clear canvas before redrawing 
 	ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-
-	tree.walk((x, y) => console.log(`coords: ${x}, ${y}`));
-	tree.draw(ctx);
-	//tree.walk((x, y) => ctx.fillRect(x, y, 10, 10));
+	tree.render();
 }
 
 
@@ -44,10 +40,9 @@ window.addEventListener("load", () => {
 
 	const x = canvas.width / (2 * window.devicePixelRatio);
 	const y = canvas.height / window.devicePixelRatio;
-	tree = new Tree(x, y, 100, 50, 7, 0.25);
+	tree = new Tree(x, y, 200, 100, 7, 0.50);
 
-	renderTree();
-
+	tree.render();
 });
 
 window.addEventListener('resize', resizeCanvas);
