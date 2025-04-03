@@ -5,16 +5,16 @@ const canvas = document.getElementById('treeCanvas');
 const container = document.getElementById('canvas-container');
 
 const renderer = new Renderer(canvas);
-renderer.setStyle("#962D00");
 
-let tree;
-const DEFAULT_LENGTH = 500;
-const DEFAULT_WIDTH = 200;
+const DEFAULT_LENGTH = 1000 * 3;
+const DEFAULT_WIDTH = 400 * 3;
+const DEFAULT_DEPTH = 7;
 const DEFAULT_TAPER_PERCENT = 0.50;
+const TREE_COLOR = "#962D00"
+let tree;
 
 // Set up canvas 
-
-const resizeCanvas = () => {
+function resizeCanvas() {
 	const dpr = window.devicePixelRatio || 1;
 	const rect = container.getBoundingClientRect();
 
@@ -26,18 +26,9 @@ const resizeCanvas = () => {
 	canvas.style.width = rect.width + 'px';
 	canvas.style.height = rect.height + 'px';
 
-
-	if (tree) {
-		renderTree();
+	if (renderer.targets && renderer.targets.length !== 0) {
+		renderer.render();
 	}
-}
-
-const renderTree = () => {
-	// Clear canvas before redrawing 
-	renderer.resetTransform();
-	renderer.clear();
-	renderer.applyTransform();
-	tree.render();
 }
 
 // Mouse/touch event handling 
@@ -71,7 +62,7 @@ function handleMouseMove(e) {
 	renderer.transform.lastX = pos.x;
 	renderer.transform.lastY = pos.y;
 
-	renderTree();
+	renderer.render();
 }
 
 function handleMouseUp() {
@@ -99,7 +90,7 @@ function handleWheel(e) {
 	renderer.transform.offsetX = pos.x - mouseX * renderer.transform.scale;
 	renderer.transform.offsetY = pos.y - mouseY * renderer.transform.scale;
 
-	renderTree();
+	renderer.render();
 }
 
 function setupControls() {
@@ -115,8 +106,11 @@ function setupControls() {
 		const depth = parseInt(depthSlider.value);
 		const x = canvas.width / (2 * window.devicePixelRatio);
 		const y = canvas.height / window.devicePixelRatio;
-		tree = new Tree(x, y, DEFAULT_LENGTH, DEFAULT_WIDTH, depth, DEFAULT_TAPER_PERCENT, renderer);
-		renderTree()
+		tree = new Tree(x, y, DEFAULT_LENGTH, DEFAULT_WIDTH, depth, DEFAULT_TAPER_PERCENT, TREE_COLOR);
+
+		renderer.flushTargets();
+		renderer.addTarget(tree);
+		renderer.render();
 	});
 }
 
@@ -126,7 +120,6 @@ window.addEventListener("load", () => {
 
 	const x = canvas.width / (2 * window.devicePixelRatio);
 	const y = canvas.height / window.devicePixelRatio;
-	tree = new Tree(x, y, DEFAULT_LENGTH, DEFAULT_WIDTH, 7, DEFAULT_TAPER_PERCENT, renderer);
 
 	// Set up event listeners for zoom and pan 
 	canvas.addEventListener('mousedown', handleMouseDown);
@@ -141,10 +134,28 @@ window.addEventListener("load", () => {
 	canvas.addEventListener('touchend', handleMouseUp);
 
 	canvas.style.cursor = 'grab';
+
 	setupControls();
 
+	// Create the tree 
+	tree = new Tree(
+		x, y,
+		DEFAULT_LENGTH,
+		DEFAULT_WIDTH,
+		DEFAULT_DEPTH,
+		DEFAULT_TAPER_PERCENT,
+		TREE_COLOR
+	);
+	renderer.addTarget(tree);
+	let i = 1;
+	while (true) {
+		const leaf = tree.createLeaf(`Leaf ${i}`);
+		if (leaf) renderer.addTarget(leaf); else break;
+		++i;
+	}
+
 	// Initial render 
-	renderTree();
+	renderer.render();
 });
 
 window.addEventListener('resize', resizeCanvas);
